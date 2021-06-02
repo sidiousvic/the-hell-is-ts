@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "ID": "CCC-CCC-CCC",
+      "username": "chrisack",
+      "wins": 9,
+      "losses": 0,
+      "slices": 9372
+    },
+    {
+      "ID": "MMM-MMM-MMM",
+      "username": "mussinbenarbia",
+      "slices": 44
+    },
+    {
+      "ID": "VVV-VVV-VVV",
+      "username": "sidiousvic",
+      "contributions": ["444-444-444", "666-666-666"],
+      "slices": "Infinity" // <- 🛑 this is not a bug.
+    }
+  ],
+  "contributions": [
+    {
+      "ID": "666-666-666",
+      "benefactorID": "VVV-VVV-VVV",
+      "beneficiaryID": "CCC-CCC-CCC",
+      "amount": 666,
+      "date": "2021-05-31T05:28:25.333Z"
+    }
+  ]
+}

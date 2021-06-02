@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // the target flavor of JS that TS will transpile to
+    "module": "commonjs", // the module system used
+    "esModuleInterop": true,
+    // ↑ allow interoperability between module systems,
+    // specifically, when a Common JS module is imported into an ES6 module.
+    // false (module.exports = x) -> (import * as x from ... // non ES6 compliant)
+    // false (module.exports = x) -> (const x = require(...))
+    // true (module.exports = x) -> (import x from ...)
+    "sourceMap": true,
+    "allowJs": true,
+    "resolveJsonModule": true, // treat JSON files as modules
+    "noUnusedLocals": false,
+    "lib": ["es6", "dom"], // library files to include
+    "rootDir": "src",
+    "moduleResolution": "node",
+    "experimentalDecorators": true // activate class decorators
+  }
+}
