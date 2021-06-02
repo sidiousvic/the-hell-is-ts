@@ -36,7 +36,6 @@ const slicedPizza = (pizza: string[], slices: number): string[] => {
   return pizza.slice(0, slices);
 }; // ✸ hover info, function signature
 
-// DefinitelyTyped -> @types/node
 const slices = slicedPizza(["a", "b"], 2);
 slices.join("🍍"); // ✸ type inference
 

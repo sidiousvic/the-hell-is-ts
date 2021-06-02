@@ -120,8 +120,31 @@ const getUserByID =
     const user = await db.getUser(userID);
     // @ts-ignore
     return user;
-    /* Types of property 'slices' are incompatible.
-       Type 'string' is not assignable to type 'number'.
+    /* 
+    ✸ Data integrity problems ↓
+      The raw data contains one instance where slices is a string, "Infinity".
+      This causes the following error:
+      ———
+        Types of property 'slices' are incompatible.
+        Type 'string' is not assignable to type 'number'.
+      ———
+      How should we handle this in a case where we can't modify the database?
+      0. 😐 user as any
+      1. 😑 Update the IUser.slices property to number | string
+      2. 😨 // @ts-ignore  (what we're doing right now)
+      3. ✅ 😈 Validate the data! 
+
+      Always remember: TypeScript types disappear at runtime. 
+
+      No matter how solid your types and interfaces are, you *cannot* avoid
+      data inconsistency. You have little control over external data, and 
+      third party databases/user input won't know nor give a duck about 
+      your well—structured, source code type definitions. 
+
+      Validate your inputs and outputs at the boundaries of Database <-> App <-> User.
+
+      Libraries such as [Class Validator](https://github.com/typestack/class-validator) 
+      may help ease the pain of creating your own type guards.
     */
   };
 
@@ -266,6 +289,8 @@ export abstract class BaseUser implements IUser {
  * @name Player
  * @extends BaseUser
  */
+
+@deprecated("6.6.5")
 export class Player extends BaseUser implements IPlayer {
   wins: number;
   losses: number;

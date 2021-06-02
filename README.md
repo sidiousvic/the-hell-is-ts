@@ -71,3 +71,9 @@ For reference when severely lost.
 ✸ [Enums vs Union Types](https://blog.bam.tech/developer-news/should-you-use-enums-or-union-types-in-typescript)
 
 ✸ [TS Config Options in Plain English](https://javascript.plainenglish.io/typescript-configuration-options-tsconfig-json-561d4a2ad4b)
+
+✸ [Type Systems: Structural vs. Nominal typing explained](https://medium.com/@thejameskyle/type-systems-structural-vs-nominal-typing-explained-56511dd969f4)
+
+✸ [Build a simple object validation utility with TypeScript](https://nozzlegear.com/blog/build-a-simple-object-validation-utility-with-typescript)
+
+✸ [Typescript Runtime Validation With io-ts](https://medium.com/swlh/typescript-runtime-validation-with-io-ts-456f095b7f86)
