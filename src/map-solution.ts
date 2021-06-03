@@ -4,7 +4,8 @@ export const map =
     const rMap = (idx: number) => (curr: T) => (acc: T[]) => {
       if (list[idx] === undefined) return acc;
       const nextIdx = idx + 1;
-      return rMap(nextIdx)(list[nextIdx])([...acc, fn(curr)]);
+      const nextCurr = list[nextIdx];
+      return rMap(nextIdx)(nextCurr)([...acc, fn(curr)]);
     };
     return rMap(0)(list[0])([]);
   };
