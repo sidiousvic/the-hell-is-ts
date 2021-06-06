@@ -22,7 +22,7 @@ Create appropriate interfaces for each kind of object in Pizza Planet.
 ↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯
 */
 
-/* User is a type alias that can evaluate to any type of users.*/
+/* User is the base level interface for a user of the app.*/
 export interface IUser {
   ID: string;
   username: string;
