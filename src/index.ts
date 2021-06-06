@@ -7,97 +7,109 @@ PRIMITIVE TYPES, TYPE LITERALS
 /* ↯
 strings
 ↯ */
-// const pizzaSlice = "🍕";
-// pizzaSlice.charAt(7);
+const pizzaSlice = "🍕"; // Initializing is as good as saying "this is a string"
+pizzaSlice.slice(); // ✸ Type inference
 
 /* ↯
 numbers
 ↯ */
-// const sliceQty = 9;
-// sliceQty.toFixed(); // ✸ IntelliSense
+const sliceQty = 9;
+sliceQty.toFixed(); // ✸ IntelliSense
 
 /* ↯
 booleans
 ↯ */
-// const pieTillIDie: boolean = true;
-// pieTillIDie.valueOf();
+const pieTillIDie = true;
+pieTillIDie.valueOf();
 
 /* ↯
 arrays
 ↯ */
-// const pizza: string[] = ["🍕", "🍕", "🍕"]; // ✸ Not assignable error
+const pizza: string[] = ["🍕", "🍕", "🍕"]; // ✸ Not assignable error
 
 /* ↯
 functions
 ↯ */
-// const slicedPizza = (pizza: string[], slices: number): string[] => {
-// return pizza.slice(0, slices);
-// }; // ✸ hover info, function signature
+const slicedPizza = (pizza: string[], slices: number): string[] => {
+  return pizza.slice(0, slices);
+}; // ✸ hover info, function signature
 
-// const slices = slicedPizza(["a", "b"], 2);
-// slices.join("🍍"); // ✸ type inference, join is autocompleted
+const slices = slicedPizza(pizza, 2);
+slices.join("🍍"); // ✸ type inference, join is autocompleted
 
 /* ↯
 any — when you can't be bothered
 ↯ */
-// const x: any = 9;
-// x.slice(); // ✸ compile time: "u can do wtf you want", but it will error at runtime
+const x: any = 9; // going back to dynamic typing
+x.slice(); // ✸ compile time: "u can do wtf you want", but it will TypeError at runtime
 
 /* ↯
 unknown — type—safe version of any
 ↯ */
-// let y: unknown = [];
-// y = 9; // ✅ reassignment allowed
+let y: unknown = [];
+y = 9; // ✅ reassignment allowed
 // y.slice(); // 🛑 not allowed
-// (y as string[]).slice(); // ✸ ✅ type casting, but runtime error if y is not array
+(y as string[]).slice(); // ✸ ✅ type casting, but runtime error if y is not array
 
 /* ↯
 never — when something will never be
 (you will know it when you need it)
 ↯ */
-// const error = () => {
-// throw new Error();
-// }; // ↯ hover over function labels to see their return type inferred as 'never'
+const error = () => {
+  throw new Error();
+  // we never return. not even implicitly, not even 'undefined'
+  // we yielded the flow of control to the exception/error
+}; // ↯ hover over function labels to see their return type inferred as 'never'
 
-// const z = () => error();
+const z = () => error();
 
-// const infiniteLoop = () => {
-// while (true) {
-// vic.powerLevel++
-// }
-// };
+const infiniteLoop = () => {
+  while (true) {}
+};
 
-// const a = () => infiniteLoop();
+const a = () => infiniteLoop();
 
 /* ↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯
 INTERFACES — describe shapes of objects, and relationships
 ↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯ */
 
-// interface StringedInstrument {
-//   name?: string; // ✸ properties can be nullable
-//   strings: number;
-// }
+interface StringedInstrument {
+  name?: string; // ✸ properties can be nullable (?)
+  strings: number;
+}
 
-// interface StringedInstrument {
-//   color?: string; // ✸ interfaces merge declarations
-// }
+interface StringedInstrument {
+  color?: string; // ✸ interfaces merge declarations
+}
 
-// const gear: StringedInstrument[] = [
-//   { name: "Fender Stratocaster", strings: 6 /* id: 9 */ }, // ✸ does not exist error
-//   { name: "Gibson EDS-1275", strings: 18, color: "red" },
-//   { strings: 4, color: "blue" },
-// ];
+const guitar: StringedInstrument = {
+  strings: 6,
+  name: "Vic's Guitar",
+  color: "black", // since ES6 trailing comma is ok
+};
 
-// interface Piano extends StringedInstrument {
-//   keys: number;
-// }
+// Interfaces let us keep data integrity
+const gear: StringedInstrument[] = [
+  { name: "Fender Stratocaster", strings: 6 /* id: 9 */ }, // ✸ does not exist error
+  { name: "Gibson EDS-1275", strings: 18, color: "red" },
+  { strings: 4, color: "blue" },
+];
 
-// interface Guitar extends StringedInstrument {
-//   tremolo: boolean;
-// } // ✸ Show Definitions (CMD + Click)
+// You can extend interfaces!
 
-// const wurlitzer: Piano = { strings: 4, keys: 88 };
-// const lesPaul: Guitar = { strings: 4, tremolo: false };
+interface Piano extends StringedInstrument {
+  // extends ...all of StringedInstrument's properties, and:
+  keys: number;
+}
+
+interface Guitar extends StringedInstrument {
+  // extends ...all of StringedInstrument's properties, and:
+  // I don't know the properties of a StringedInstrument
+  tremolo: boolean;
+} // ✸ Show Definitions (CMD + Click)
+
+const wurlitzer: Piano = { strings: 4, keys: 88 };
+const lesPaul: Guitar = { strings: 4, tremolo: false };
 
 /* ↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯
 TYPE ALIASES — mix, nickname and blend types
