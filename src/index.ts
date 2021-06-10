@@ -236,7 +236,7 @@ Pick — S with specific props of T
 // const usernameAndPassword: Pick<User, "username" | "password"> = {
 //   username: "",
 //   password: "",
-//   // registeredOn: "",
+//   //   registeredOn: "",
 //   // ↑ 🛑 does not exist in type 'Pick<User, "username" | "password">'
 // };
 
@@ -271,32 +271,36 @@ To see how this type is imported
 ↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯ */
 
 // interface Villain {
+//   //   [s: string]: boolean | string | ((n: number) => string); // ✸ Indexable types
 //   hood: boolean;
 //   bald: boolean;
 //   evilPlans: string;
 //   laughEvilly: (length: number) => string;
 // } // ✸ Implements
 
-// class Lord {
-//   createPublicPolicy: (salary: number) => never;
-// } // ✸ Extends
+// // this provides inherited values
+// class Governor {
+//   createPublicPolicy(salary: number) {}
+// } // ✸ Classes can be abstract
 
-// @frozen
-// class Darklord extends Lord implements Villain {
+// new Governor(); //  🛑 Cannot create an instance of an abstract class.
+
+// // @frozen
+// class Darklord extends Governor implements Villain {
 //   hood: boolean;
 //   bald: boolean;
 //   evilPlans: string; // 🛑 comment this out to see an implements error
 //   #powerLevel: number; // ✸ private properties (# or private)
 
-//   @memoize
-//   @logWithColor("g")
+//   // @memoize
+//   // @logWithColor("g") // -> Factory returns decorator
 //   laughEvilly(length: number) {
 //     const evilLaugh = "Muaha" + [...Array(length)].fill("ha").join("") + "!";
 //     return evilLaugh;
 //   }
 // }
 
-// const Chris = new Darklord();
+// const Chris = new Darklord(); // Chris's type is Darklord
 // Chris.evilPlans = "Replace Evan's graphics card with a Pop-Tart";
 // Chris.hood = true;
 // Chris.bald = false;
@@ -317,6 +321,7 @@ To see how this type is imported
 
 // ↯ run o' the mill normal func
 // const fn = (x: string): string => x;
+
 // ↯ decorator function
 // const pizzaz = (fn: Function) => (x: string) => fn(x + " 🍕");
 
@@ -337,18 +342,19 @@ When defined though, they are just functions that accept specific parameters for
 ↯ */
 
 // function frozen(target: Function): void {
+//   console.log(target + "was instantiated!");
 //   Object.freeze(target);
 //   Object.freeze(target.prototype);
 // } // ✸ Class decorator
 
 // function memoize(
-//   target: Object,
-//   property: string | symbol,
-//   desc: PropertyDescriptor
+//   target: Object, // the Darklord class
+//   property: string | symbol, // "laughEvilly"
+//   desc: PropertyDescriptor // {value: [Function: laughEvilly]}
 // ) {
-//   const fn = desc.value;
+//   const fn = desc.value; // [Function: laughEvilly]
 //   const cache = {};
-//   desc.value = (...args) => {
+//   desc.value = (...args: any[]) => {
 //     const hash = args.join("-");
 //     if (!cache[hash]) {
 //       cache[hash] = fn.apply(target, args);
@@ -376,14 +382,14 @@ When defined though, they are just functions that accept specific parameters for
 ENUMS — finite sets of constant values
 ↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯↯ */
 
-// enum LogLevel {
+// enum LogLevels {
 //   Error = "error",
 //   Debug = "debug",
 //   Default = "default",
 // }
 
-// const debug = LogLevel.Debug; // "debug"
-// const logger = (color: LogLevel): void => console[LogLevel[color]];
+// const debug = LogLevels.Debug; // "debug"
+// const logger = (color: LogLevels): void => console[LogLevels[color]];
 
 /* ↯
 Why not a union type? -> type LogColors = "r" | "b" | "g"
@@ -393,10 +399,13 @@ Unions -> Terser, accessible, extendable and performant
 Ball's in your court, devil! 😈
 ↯ */
 
+// const keys = Object.keys(LogLevels); // ✸ Iterable
+// console.log(keys);
+
 /* ↯
 Hope you enjoyed these examples.
 
 Now time to do the exercises! 
 
-Delve into src/pizza-planet.ts to continue the odissey! 🍕🌍
+Delve into src/pizza-planet.ts to continue the odyssey! 🍕🌍
 ↯ */
